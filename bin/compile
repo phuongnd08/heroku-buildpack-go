@@ -168,7 +168,7 @@ if test -e $build/gobuild
 then
   $build/gobuild
 else
-  normal_build()
+  normal_build
 fi
 
 rm -rf $build/.heroku

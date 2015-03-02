@@ -152,13 +152,23 @@ fi
 
 unset GIT_DIR # unset git dir or it will mess with goinstall
 cd $p
-if test -e $build/Godeps
+
+function normal_build {
+  if test -e $build/Godeps
+  then
+      echo "-----> Running: godep go install ${FLAGS[@]} ./..."
+      godep go install "${FLAGS[@]}" ./...
+  else
+      echo "-----> Running: go get ${FLAGS[@]} ./..."
+      go get "${FLAGS[@]}" ./...
+  fi
+}
+
+if test -e $build/gobuild
 then
-    echo "-----> Running: godep go install ${FLAGS[@]} ./..."
-    godep go install "${FLAGS[@]}" ./...
+  $build/gobuild
 else
-    echo "-----> Running: go get ${FLAGS[@]} ./..."
-    go get "${FLAGS[@]}" ./...
+  normal_build()
 fi
 
 rm -rf $build/.heroku
